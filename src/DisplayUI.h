@@ -1,8 +1,13 @@
 #pragma once
 
 #include <Arduino.h>
+#include <LovyanGFX.hpp>
+#include "config.h"
 #include "PresetManager.h"
 #include "FrequencyEngine.h"
+
+using namespace lgfx;
+extern LGFX lcd;
 
 class DisplayUI {
 public:

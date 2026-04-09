@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <vector>
 #include <string>
 
@@ -39,5 +40,5 @@ private:
     std::vector<Preset> _presets;
     std::vector<String> _categories;
     
-    void parsePreset(const JsonObject& obj);
+    void parsePreset(const JsonObjectConst& obj);
 };

@@ -1,5 +1,6 @@
 #include "WifiManager.h"
 #include <FS.h>
+#include <SPIFFS.h>
 
 WifiManager::WifiManager() : _ssid(nullptr), _password(nullptr), _reconnectAttempt(0) {}
 

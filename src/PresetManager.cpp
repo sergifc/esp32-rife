@@ -1,6 +1,7 @@
 #include "PresetManager.h"
 #include <ArduinoJson.h>
 #include <FS.h>
+#include <SPIFFS.h>
 
 PresetManager::PresetManager() {}
 
@@ -29,14 +30,14 @@ void PresetManager::loadFromJson(const String& jsonStr) {
         return;
     }
 
-    JsonArray presetsArray = doc["presets"];
+    JsonArrayConst presetsArray = doc["presets"];
     if (!presetsArray.isNull()) {
-        for (JsonObject presetObj : presetsArray) {
+        for (JsonObjectConst presetObj : presetsArray) {
             parsePreset(presetObj);
         }
     }
 
-    JsonArray categoriesArray = doc["categories"];
+    JsonArrayConst categoriesArray = doc["categories"];
     if (!categoriesArray.isNull()) {
         for (const char* cat : categoriesArray) {
             _categories.push_back(String(cat));
@@ -48,7 +49,7 @@ void PresetManager::loadFromJson(const String& jsonStr) {
     Serial.println(" presets");
 }
 
-void PresetManager::parsePreset(const JsonObject& obj) {
+void PresetManager::parsePreset(const JsonObjectConst& obj) {
     Preset preset;
     preset.name = obj["name"].as<String>();
     preset.mode = obj["mode"].as<String>();
@@ -56,16 +57,16 @@ void PresetManager::parsePreset(const JsonObject& obj) {
     preset.animal_category = obj["animal_category"].as<String>();
     preset.description = obj["description"].as<String>();
 
-    JsonArray programsArray = obj["programs"];
+    JsonArrayConst programsArray = obj["programs"];
     if (!programsArray.isNull()) {
-        for (JsonObject progObj : programsArray) {
+        for (JsonObjectConst progObj : programsArray) {
             Program program;
             program.id = progObj["id"].as<String>();
             program.name = progObj["name"].as<String>();
 
-            JsonArray freqsArray = progObj["frequencies"];
+            JsonArrayConst freqsArray = progObj["frequencies"];
             if (!freqsArray.isNull()) {
-                for (JsonObject freqObj : freqsArray) {
+                for (JsonObjectConst freqObj : freqsArray) {
                     Frequency freq;
                     freq.hz = freqObj["hz"].as<float>();
                     freq.offset = freqObj["offset"].as<uint8_t>();
